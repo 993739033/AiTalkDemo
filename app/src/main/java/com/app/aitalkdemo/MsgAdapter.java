@@ -48,7 +48,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>{
         if (msg.getType() == Msg.TYPE_RECEIVE) {
             holder.layout_right.setVisibility(View.GONE);
             holder.layout_left.setVisibility(View.VISIBLE);
-            holder.Btn_left.setText(msg.getText()+"\n"+msg.getUrl());
+            holder.Btn_left.setText(msg.getText() + "\n" + (msg.getUrl() == null ? "" : msg.getUrl()));
 
 
         } else if (msg.getType() == Msg.TYPE_SEND) {

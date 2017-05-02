@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HttpCallbackListener{
     private RecyclerView Rv_showtalk;
     private EditText Et_input;
     private Button Btn_send;
@@ -40,8 +43,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Msg send_msg = new Msg(0,null,null,Msg.TYPE_SEND,Et_input.getText().toString());
+                MyHttpUtils.SendMsg(Et_input.getText().toString(),MainActivity.this);
                 Et_input.setText("");
                 msgList.add(send_msg);
+                msgAdapter.notifyDataSetChanged();
+                Rv_showtalk.scrollToPosition(msgList.size()-1);
+
+            }
+        });
+    }
+
+    @Override
+    public void onFinish(String respone) {
+        try {
+            JSONObject jsonObject = new JSONObject(respone);
+            int code = jsonObject.getInt("code");
+            String text = jsonObject.getString("text");
+            String url=null;
+            if (jsonObject.has("url")) {
+                url = jsonObject.getString("url");
+            }
+            Msg msg = new Msg(code,text,url,Msg.TYPE_RECEIVE,null);
+            receiveMsg(msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onError(Exception e) {
+
+    }
+    private void receiveMsg(final Msg msg){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                msgList.add(msg);
                 msgAdapter.notifyDataSetChanged();
                 Rv_showtalk.scrollToPosition(msgList.size()-1);
             }
