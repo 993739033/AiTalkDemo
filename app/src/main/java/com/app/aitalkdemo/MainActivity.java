@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
         initView();
     }
     private void initView(){
-        Msg send_msg = new Msg(0,"sfsdf","sdfsdfs",Msg.TYPE_RECEIVE,null);
+        Msg send_msg = new Msg(0,"sfsdfsadfsdfsdfsdfjaskldfjlaksdjfksldjflsadjflksdjf","sdfsdsdfsadfasdfsdfsdffs",Msg.TYPE_RECEIVE,null);
         msgList.add(send_msg);
         msgAdapter = new MsgAdapter(msgList);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
