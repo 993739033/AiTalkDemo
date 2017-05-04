@@ -29,7 +29,7 @@
              android:layout_marginLeft="15dp"
              >
         <TextView
-            android:id="@+id/Other_Btn"
+            android:id="@+id/Other_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
@@ -38,6 +38,7 @@
 
              />
              <Button
+                 android:gravity="center_vertical"
                  android:layout_width="50dp"
                  android:layout_height="match_parent"
                  android:background="@color/colorAccent"
@@ -64,7 +65,7 @@
            android:orientation="horizontal"
            >
         <TextView
-            android:id="@+id/This_Btn"
+            android:id="@+id/This_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -75,6 +76,9 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
+            android:gravity="center_vertical"
+            android:rotation="180"
+            android:id="@+id/This_Btn"
             android:text=":D"
             android:textSize="25dp"
             />

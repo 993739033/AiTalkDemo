@@ -30,8 +30,8 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>{
             super(itemView);
             layout_left = (LinearLayout) itemView.findViewById(R.id.left_layout);
             layout_right = (LinearLayout) itemView.findViewById(R.id.right_layout);
-            Tv_this = (TextView) itemView.findViewById(R.id.Other_Btn);
-            Tv_other = (TextView) itemView.findViewById(R.id.This_Btn);
+            Tv_this = (TextView) itemView.findViewById(R.id.Other_Tv);
+            Tv_other = (TextView) itemView.findViewById(R.id.This_Tv);
         }
     }
 
