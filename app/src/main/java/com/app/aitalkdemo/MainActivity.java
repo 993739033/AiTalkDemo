@@ -1,28 +1,23 @@
 package com.app.aitalkdemo;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements HttpCallbackListener{
     private RecyclerView Rv_showtalk;
@@ -45,6 +40,25 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
     }
     private void initView(){
         myData = new MyData(this, "Msg.db", null, 1);
+        mDatabase=myData.getReadableDatabase();
+        int showsize=getMaxCursorId() - 50>1?getMaxCursorId() - 50:0;
+//        Cursor mcursor = mDatabase.query(MyData.NAME, new String[]{"id"}, "id>=?", new String[]{String.valueOf(showsize)}, null, null, null, null);
+        Cursor mcursor = mDatabase.query(MyData.NAME, null, null, null, null, null, null, null);
+        if ( mcursor.moveToFirst()&&mcursor!=null) {
+
+            do {
+                int code=mcursor.getInt(mcursor.getColumnIndex(MyData.CODE));
+                String text=mcursor.getString(mcursor.getColumnIndex(MyData.TEXT));
+                String url=mcursor.getString(mcursor.getColumnIndex(MyData.URL));
+                int type=mcursor.getInt(mcursor.getColumnIndex(MyData.TYPE));
+                String date=mcursor.getString(mcursor.getColumnIndex(MyData.DATE));
+                String info=mcursor.getString(mcursor.getColumnIndex(MyData.INFO));
+                Msg msg = new Msg(code, text, url, type, info, date);
+                msgList.add(msg);
+
+            } while (mcursor.moveToNext());
+            mcursor.close();
+        }
         Msg[] send_msg = { new Msg(0,"yooo! 接下来聊点什么呢？","",Msg.TYPE_RECEIVE,null,getTime()),
                 new Msg(0,"又是美好的一天呢！(/≥▽≤/)","",Msg.TYPE_RECEIVE,null,getTime()),
                 new Msg(0," 当当当！˙ω˙ 愚蠢的人类有什么事吗？","",Msg.TYPE_RECEIVE,null,getTime())
@@ -57,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         Rv_showtalk.setLayoutManager(linearLayout);
         Rv_showtalk.setAdapter(msgAdapter);
+        Rv_showtalk.scrollToPosition(msgList.size()-1);
         Btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +146,16 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
       cv.put(MyData.URL,msg.getUrl());
       mDatabase.insert(MyData.NAME, null, cv);
 //      Toast.makeText(this, "save", Toast.LENGTH_SHORT).show();
+  }
+  private int getMaxCursorId(){
+      int max=0;
+      mDatabase= myData.getReadableDatabase();
+      Cursor cursor = mDatabase.query(MyData.NAME, null, null, null, null, null, null);
+      if( cursor.moveToLast()){
+        max = cursor.getInt(cursor.getColumnIndex("id"));
+      };
+
+      return max;
   }
 
 

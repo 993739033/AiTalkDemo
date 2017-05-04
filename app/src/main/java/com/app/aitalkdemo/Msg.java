@@ -16,6 +16,16 @@ public class Msg {
     private String url;
     private int type;
 
+    private String date;
+
+    private String info;
+
+    public static String getUserid() {
+        return userid;
+    }
+
+    private static final String userid="23333";
+
     public String getDate() {
         return date;
     }
@@ -24,9 +34,6 @@ public class Msg {
         this.date = date;
     }
 
-    private String date;
-
-    private String info;
 
     public Msg(int code, String text, String url, int type, String info,String date) {
         this.code = code;

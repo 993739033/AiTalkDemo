@@ -33,7 +33,7 @@ public class MyHttpUtils {
                     connection.setConnectTimeout(5000);
                     DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
 
-                    dataOutputStream.writeBytes("key=" + KEY + "&" + "info=" + URLEncoder.encode(info,"utf-8"));
+                    dataOutputStream.writeBytes("key=" + KEY + "&" + "info=" + URLEncoder.encode(info,"utf-8")+"&"+"userid="+ URLEncoder.encode(Msg.getUserid(),"utf-8"));
                     InputStream inputStream = connection.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
                     StringBuffer stringBuffer = new StringBuffer();
