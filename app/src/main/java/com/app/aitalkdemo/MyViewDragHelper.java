@@ -5,20 +5,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
  * Created by 知らないのセカイ on 2017/5/3.
  */
 
-public class MyViewDragHelper extends LinearLayout {
+public class MyViewDragHelper extends FrameLayout {
     private ViewDragHelper myDrag;
     public MyViewDragHelper(Context context) {
         super(context);
@@ -30,6 +33,7 @@ public class MyViewDragHelper extends LinearLayout {
 
     public MyViewDragHelper(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
         myDrag=ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
@@ -87,12 +91,13 @@ public class MyViewDragHelper extends LinearLayout {
     private TextView contentView;
     private Button Btn_delete;
     private int dragwidth;
-
+    private int  content_width,content_height;
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         contentView = (TextView) getChildAt(0);
         Btn_delete = (Button) getChildAt(1);
+
         if (Btn_delete.getVisibility()==VISIBLE){
             Btn_delete.setVisibility(View.GONE);
         }
@@ -106,16 +111,21 @@ public class MyViewDragHelper extends LinearLayout {
             invalidate();
         }
     }
-
+    private Boolean once=false;
+    private static int f_w,f_h;
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-
+        Btn_delete.layout(contentView.getRight(), contentView.getTop(), contentView.getRight()+Btn_delete.getMeasuredWidth(), contentView.getBottom());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         dragwidth=Btn_delete.getMeasuredWidth();
+        Btn_delete.measure(Btn_delete.getMeasuredWidth(),heightMeasureSpec);
+
+
+
     }
 }
