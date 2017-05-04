@@ -40,6 +40,7 @@
              <Button
                  android:gravity="center_vertical"
                  android:layout_width="50dp"
+                 android:id="@+id/Other_Btn"
                  android:layout_height="match_parent"
                  android:background="@color/colorAccent"
                  android:text=":D"
