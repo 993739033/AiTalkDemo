@@ -23,11 +23,9 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
         this.msgList = msgList;
     }
 
-
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout_left,layout_right;
-        TextView Tv_this, Tv_other;
+        TextView Tv_this, Tv_other,Tv_date;
         Button Btn_this,Btn_other;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -37,6 +35,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
             Tv_other = (TextView) itemView.findViewById(R.id.This_Tv);
             Btn_this = (Button) itemView.findViewById(R.id.This_Btn);
             Btn_other = (Button) itemView.findViewById(R.id.Other_Btn);
+            Tv_date = (TextView) itemView.findViewById(R.id.Date_Tv);
         }
     }
 
@@ -49,6 +48,13 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
          final Msg  msg = msgList.get(position);
+        String date[] = msg.getDate().split(",");
+        if (date[1].equals("true")&&holder.Tv_date.getVisibility()==View.GONE){
+            holder.Tv_date.setVisibility(View.VISIBLE);
+            holder.Tv_date.setText(date[0]);
+        }else {
+            holder.Tv_date.setVisibility(View.GONE);
+        }
         if (msg.getType() == Msg.TYPE_RECEIVE) {
             holder.layout_right.setVisibility(View.GONE);
             holder.layout_left.setVisibility(View.VISIBLE);
@@ -60,9 +66,6 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
                     notifyDataSetChanged();
                 }
             });
-
-
-
         } else if (msg.getType() == Msg.TYPE_SEND) {
             holder.layout_right.setVisibility(View.VISIBLE);
             holder.layout_left.setVisibility(View.GONE);

@@ -4,7 +4,14 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="yoo"
+        android:id="@+id/Date_Tv"
+        android:visibility="gone"
+        android:gravity="center"
+        />
     <LinearLayout
         android:id="@+id/left_layout"
         android:layout_width="wrap_content"
@@ -13,6 +20,7 @@
         android:orientation="horizontal"
 
         >
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/Other_Img"
@@ -33,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:background="@drawable/talk_img1"
 
              />
@@ -46,7 +54,9 @@
                  android:text=":D"
                  android:visibility="gone"
                  android:textSize="25dp"
-                 />
+                 android:layout_alignParentTop="true"
+                 android:layout_alignParentLeft="true"
+                 android:layout_alignParentStart="true" />
          </com.app.aitalkdemo.MyViewDragHelper>
     </LinearLayout>
 
@@ -69,7 +79,7 @@
             android:id="@+id/This_Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:textSize="18dp"
             android:background="@drawable/talk_img2" />
         <Button

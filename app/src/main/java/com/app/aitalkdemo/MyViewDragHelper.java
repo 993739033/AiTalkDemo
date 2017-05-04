@@ -24,7 +24,6 @@ public class MyViewDragHelper extends FrameLayout {
 
     public MyViewDragHelper(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
     public MyViewDragHelper(final Context context, @Nullable AttributeSet attrs) {
@@ -58,30 +57,27 @@ public class MyViewDragHelper extends FrameLayout {
                     Btn_delete.offsetLeftAndRight(dx);
                     invalidate();
                 }
-
             }
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
                 super.onViewReleased(releasedChild, xvel, yvel);
-
                 Boolean settleOpenTo = false;
                 if (isleft) {
-                    if (xvel < -1.3) {
+                    if (xvel < -0.8) {
                         settleOpenTo = true;
                     } else if (draggx <= -dragwidth / 2) {
                         settleOpenTo = true;
                     }
                     settleDestx= settleOpenTo ? -dragwidth : 0;
                 }else {
-                    if (xvel >1.3) {
+                    if (xvel >0.8) {
                         settleOpenTo = true;
                     } else if (draggx >= dragwidth / 2) {
                         settleOpenTo = true;
                     }
                     settleDestx= settleOpenTo ? dragwidth : 0;
                 }
-
                 myDrag.smoothSlideViewTo(contentView, settleDestx, 0);
 
                 ViewCompat.postInvalidateOnAnimation(MyViewDragHelper.this);

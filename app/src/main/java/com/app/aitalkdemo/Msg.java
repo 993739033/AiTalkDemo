@@ -16,14 +16,25 @@ public class Msg {
     private String url;
     private int type;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String date;
+
     private String info;
 
-    public Msg(int code, String text, String url, int type, String info) {
+    public Msg(int code, String text, String url, int type, String info,String date) {
         this.code = code;
         this.text = text;
         this.url = url;
         this.type = type;
         this.info = info;
+        this.date =date;
     }
 
     public int getCode() {
