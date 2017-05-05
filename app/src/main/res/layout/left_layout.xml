@@ -5,6 +5,7 @@
     android:background="@color/pick"
     android:layout_gravity="left"
     >
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_gravity="center"
         android:id="@+id/Other_Img"
@@ -12,6 +13,22 @@
         android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:src="@drawable/ai_img2"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Tv_help"
+        android:visibility="gone"
+        android:text="
+                             (╯‵□′)╯︵┻━┻
+                                                左右滑动对话会出现红色方块,
+                                                  单击删除。  (‵▽′)/  yooooo~~~
+                                                出现网站地址是可以通过长按红色方块
+                                                进入网页。
+                                                                  (ㄒoㄒ)/ 当然记得   KAI_WANG!!!
+                                                                  在下人工智能(zhang)有何贵干！！！
+                                                                  ●﹏●(紧张吃瓜)  (≧▽≦)/~┴┴
+         "
         />
     <Button
         android:layout_marginTop="10dp"

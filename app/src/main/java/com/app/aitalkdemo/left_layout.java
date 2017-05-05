@@ -12,15 +12,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by 知らないのセカイ on 2017/5/5.
  */
 
 public class left_layout extends LinearLayout {
     private Button tucao,Btn_tucao;
-    private TextView Tv_xiao;
+    private TextView Tv_xiao,Tv_help;
     private EditText tucao_content;
     private LinearLayout content_input;
+    private CircleImageView CImg;
 
     public left_layout(Context context) {
         super(context);
@@ -38,6 +41,18 @@ public class left_layout extends LinearLayout {
         Tv_xiao = (TextView) findViewById(R.id.xiao);
         tucao_content = (EditText) findViewById(R.id.Et_input);
         content_input = (LinearLayout) findViewById(R.id.tucao_input);
+        CImg = (CircleImageView) findViewById(R.id.Other_Img);
+        Tv_help = (TextView) findViewById(R.id.Tv_help);
+        CImg.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Tv_help.getVisibility() != VISIBLE) {
+                    Tv_help.setVisibility(VISIBLE);
+                }else{
+                    Tv_help.setVisibility(GONE);
+                }
+            }
+        });
         tucao.setOnClickListener(new OnClickListener() {
             int i=0;
             @Override

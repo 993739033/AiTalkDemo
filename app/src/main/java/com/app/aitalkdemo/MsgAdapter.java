@@ -1,7 +1,9 @@
 package com.app.aitalkdemo;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,9 +28,10 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout layout_left,layout_right;
+        LinearLayout layout_left,layout_right,layout_talkgroup;
         TextView Tv_this, Tv_other,Tv_date;
         Button Btn_this,Btn_other;
+
         public ViewHolder(View itemView) {
             super(itemView);
             layout_left = (LinearLayout) itemView.findViewById(R.id.left_layout);
@@ -37,6 +41,9 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
             Btn_this = (Button) itemView.findViewById(R.id.This_Btn);
             Btn_other = (Button) itemView.findViewById(R.id.Other_Btn);
             Tv_date = (TextView) itemView.findViewById(R.id.Date_Tv);
+            layout_talkgroup = (LinearLayout) itemView.findViewById(R.id.talk_group);
+
+
         }
     }
 
@@ -50,7 +57,25 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
          final Msg  msg = msgList.get(position);
-        String date[]=null;
+         String date[]=null;
+
+        /**
+         * Textview 的长按监听事件和viewDraghelper 事件滑动事件冲突了
+         *
+         */
+//         holder.Tv_this.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Intent intent = new Intent(v.getContext(), Web_View.class);
+//                intent.putExtra("url", msg.getUrl());
+//                if (!TextUtils.isEmpty(msg.getUrl()) ){
+//                    v.getContext().startActivity(intent);
+//                }
+////                Toast.makeText(v.getContext(), "be touch", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        });
+
         if (msg.getDate()==null){
             date= new String[]{"false", "false","false"};
         }
@@ -74,6 +99,18 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>  {
                     msgList.remove(msg);
                     deleteMsgInSql(msg);
                     notifyDataSetChanged();
+                }
+            });
+            holder.Btn_other.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Web_View.class);
+                intent.putExtra("url", msg.getUrl());
+                if (!TextUtils.isEmpty(msg.getUrl()) ){
+                    v.getContext().startActivity(intent);
+                }
+//                Toast.makeText(v.getContext(), "be touch", Toast.LENGTH_SHORT).show();
+                    return false;
                 }
             });
         } else if (msg.getType() == Msg.TYPE_SEND) {

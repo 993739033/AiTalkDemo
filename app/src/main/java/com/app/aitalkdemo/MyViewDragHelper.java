@@ -44,7 +44,6 @@ public class MyViewDragHelper extends FrameLayout {
                 }
                 return newleft;
             }
-
             private int draggx;
 
             @Override

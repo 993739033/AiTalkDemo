@@ -25,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Handler;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements HttpCallbackListener{
@@ -38,9 +41,10 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
     private SQLiteDatabase mDatabase;
 
     private Button tucao,Btn_tucao;
-    private TextView Tv_xiao;
+    private TextView Tv_xiao,Tv_help;
     private EditText tucao_content;
     private LinearLayout content_input;
+    private CircleImageView CImg;
 
 
     private String[] keys = {"135aec50af6e4a5684e59a19ab976ed3", "c85e586f47494a02be14c6ba8aa782a1", "c009acedff614ab3abd18c7bae6d8321"
@@ -64,20 +68,36 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
         Tv_xiao = (TextView) findViewById(R.id.xiao);
         tucao_content = (EditText) findViewById(R.id.tucao_content);
         content_input = (LinearLayout) findViewById(R.id.tucao_input);
+        CImg = (CircleImageView) findViewById(R.id.Other_Img);
+        Tv_help = (TextView) findViewById(R.id.Tv_help);
+        CImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Tv_help.getVisibility() != VISIBLE) {
+                    Tv_help.setVisibility(VISIBLE);
+                }else{
+                    Tv_help.setVisibility(GONE);
+                }
+            }
+        });
         tucao.setOnClickListener(new View.OnClickListener() {
             int i=0;
             @Override
             public void onClick(View v) {
-                if (Tv_xiao.getVisibility() == View.GONE) {
+                if (Tv_xiao.getVisibility() == GONE) {
                     Tv_xiao.setVisibility(VISIBLE);
                 }else{
                     i++;
-                    if (i == 5 && content_input.getVisibility() == View.GONE) {
+                    if (i == 5 && content_input.getVisibility() == GONE) {
                         content_input.setVisibility(VISIBLE);
                     }
                 }
             }
         });
+
+
+
+
 
         Btn_tucao.setOnClickListener(new View.OnClickListener() {
             @Override
