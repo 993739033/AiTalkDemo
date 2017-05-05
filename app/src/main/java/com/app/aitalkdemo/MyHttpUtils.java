@@ -15,9 +15,9 @@ import java.net.URLEncoder;
  */
 
 public class MyHttpUtils {
-    private final static String KEY = "135aec50af6e4a5684e59a19ab976ed3";
+//    private final static String KEY = "135aec50af6e4a5684e59a19ab976ed3";
 
-    public static void SendMsg(final String info, final HttpCallbackListener httpCallbackListener) {
+    public static void SendMsg(final String info, final HttpCallbackListener httpCallbackListener,final String KEY) {
 
 
         new Thread(new Runnable() {

@@ -7,9 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Handler;
+
+import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements HttpCallbackListener{
     private RecyclerView Rv_showtalk;
@@ -29,6 +37,16 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
     private MyData myData;
     private SQLiteDatabase mDatabase;
 
+    private Button tucao,Btn_tucao;
+    private TextView Tv_xiao;
+    private EditText tucao_content;
+    private LinearLayout content_input;
+
+
+    private String[] keys = {"135aec50af6e4a5684e59a19ab976ed3", "c85e586f47494a02be14c6ba8aa782a1", "c009acedff614ab3abd18c7bae6d8321"
+            , "0e66d7b5b77a40af854da4e2a3b28bf7", "9d599900c0064a79b2a5515e23cf4393"};
+    private String key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +57,57 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
         initView();
     }
     private void initView(){
+       int i= (int) (Math.random()*keys.length);
+        key = keys[i];
+        Btn_tucao = (Button) findViewById(R.id.Btn_tucao);
+        tucao = (Button) findViewById(R.id.tucao_first);
+        Tv_xiao = (TextView) findViewById(R.id.xiao);
+        tucao_content = (EditText) findViewById(R.id.tucao_content);
+        content_input = (LinearLayout) findViewById(R.id.tucao_input);
+        tucao.setOnClickListener(new View.OnClickListener() {
+            int i=0;
+            @Override
+            public void onClick(View v) {
+                if (Tv_xiao.getVisibility() == View.GONE) {
+                    Tv_xiao.setVisibility(VISIBLE);
+                }else{
+                    i++;
+                    if (i == 5 && content_input.getVisibility() == View.GONE) {
+                        content_input.setVisibility(VISIBLE);
+                    }
+                }
+            }
+        });
+
+        Btn_tucao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content=tucao_content.getText().toString();
+                if (!TextUtils.isEmpty(content)){
+                    if(content.equals("我就是巴大仙")||content.equals("我就是巴鑫辉")||content.equals("我就是老巴")){
+                        tucao_content.setText("");
+                        Toast.makeText(MainActivity.this, "大仙好！ 大仙再见！", Toast.LENGTH_SHORT).show();
+                        final android.os.Handler handler =new android.os.Handler();
+                         Runnable runable=new Runnable(){
+                            @Override
+                            public void run() {
+                                handler.removeCallbacks(this);
+                                System.exit(0);
+                            }
+                        };
+
+                        handler.postDelayed(runable,2000);
+
+                    }
+
+                    Toast.makeText(MainActivity.this, "兄弟！想修仙何不问问 巴大仙", Toast.LENGTH_SHORT).show();
+                    tucao_content.setText("");
+                }
+            }
+        });
+
+
+
         myData = new MyData(this, "Msg.db", null, 1);
         mDatabase=myData.getReadableDatabase();
         int showsize=getMaxCursorId() - 50>1?getMaxCursorId() - 50:0;
@@ -63,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
                 new Msg(0,"又是美好的一天呢！(/≥▽≤/)","",Msg.TYPE_RECEIVE,null,getTime()),
                 new Msg(0," 当当当！˙ω˙ 愚蠢的人类有什么事吗？","",Msg.TYPE_RECEIVE,null,getTime())
         };
-        int i= (int) (Math.random()*send_msg.length);
-        Msg m = send_msg[i];
+        int k= (int) (Math.random()*send_msg.length);
+        Msg m = send_msg[k];
         msgList.add(m);
         saveMsgInSql(m);
         msgAdapter = new MsgAdapter(msgList);
@@ -76,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallbackListe
             @Override
             public void onClick(View v) {
                 Msg send_msg = new Msg(0,null,null,Msg.TYPE_SEND,Et_input.getText().toString(),getTime());
-                MyHttpUtils.SendMsg(Et_input.getText().toString(),MainActivity.this);
+                MyHttpUtils.SendMsg(Et_input.getText().toString(),MainActivity.this,key);
                 saveMsgInSql(send_msg);
                 Et_input.setText("");
                 msgList.add(send_msg);

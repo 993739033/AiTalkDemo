@@ -11,6 +11,14 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def releaseTime = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+            def file = output.outputFile
+            def filename = "Version_"+defaultConfig.versionName+"_"+releaseTime+".apk"
+            output.outputFile = new File(file.parent, filename)
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
